@@ -1,0 +1,17 @@
+version: "3.5"
+
+services:
+  webhook:
+    build: ./webhook
+    volumes:
+      - ./webhook-secret:/webhook-secret:ro
+
+  ngrok-proxy:
+    image: ngrok/ngrok:alpine
+    command:
+      - http
+      - webhook:5000
+      - --log=stdout
+    ports:
+      - 8443:8443
+      - 4040:4040
